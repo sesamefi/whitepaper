@@ -19,7 +19,7 @@
 %\hypersetup{%
 %    pdfborder = {0 0 0}
 %}
-\newcommand{\version}{\vspace{10pt}\\ Version 1.0}
+\newcommand{\version}{\vspace{10pt}\\ Version 1.1}
 \newcommand{\smallvspace}{\vspace{4pt} \\}
 \begin{document}
 \title{Whitepaper \vspace{10pt} \\
@@ -38,7 +38,9 @@ Most of the crypto industry now agrees on the need for more compliance, transpar
 
 We can achieve this, by integrating the analysis of on-chain transactions, the so-called “KYT” or Know Your Transaction (comparable to the TraFi “KYC”), into a smart contract which will keep the users’ wallet in a safe and trustworthy space. \\
 
-Our goal is to progressively create trust areas where financial transactions between certified wallets and certified smart contracts are assertively deemed compliant. Hence, the Web3 community is provided with a secure and safe ecosystem to develop its economy, while still keeping the privacy-protecting and decentralized spirits which are attached to its roots.
+By putting technology at the service of regulation we can solve the challenges arising from the continuous innovation in the cryptospace. \\
+
+As a RegTech company, our goal is to progressively create trust areas where financial transactions between certified wallets and certified smart contracts are assertively deemed compliant. Hence, the Web3 community is provided with a secure and safe ecosystem to develop its economy, while still keeping the privacy-protecting and decentralized spirits which are attached to its roots.
 
 \subsection{The Company}
 Sesame.fi is a French-based company specializing in crypto compliance certification. We aim to build the next global compliance standard for Web3 and accelerate its adoption by regulated entities and individuals with transparency needs. \\
@@ -92,7 +94,7 @@ It then becomes obvious that the compliance checks need to be applied on-chain. 
 
 This where how Sesame.fi wishes to address these questions.
 \subsection{The solution}
-By pushing the compliance tools on-chain, Sesame.fi aims to accelerate cryptocurrencies adoption by providing maximal reliability and transparency for all Web3 users. Our solution is to provide an easy-to-use interface which will certify whether a wallet is compliant to a specific compliance standard or not. This interface will come in the form of an on-chain whitelist. \\
+By pushing the compliance tools on-chain, Sesame.fi aims to accelerate cryptocurrencies adoption by providing maximal reliability and transparency for all Web3 users. Our RegTech solution is to provide an easy-to-use interface which will certify whether a wallet is compliant to a specific compliance standard or not. This interface will come in the form of an on-chain whitelist. \\
 
 In theory, anyone, whether it is an individual, a business or an institution can check any wallet, track its transaction history and make sure it has never dealt with litigious funds. However, this task is tedious and often reserved to the realm of AML providers. \\
 
@@ -270,9 +272,9 @@ For this part of the Sesame solution, we offer both on-chain and off-chain scori
 \newpage
 \section{Technical Architecture}
 \subsection{Door 1.0 (2022)}
-The first release of the solution will include a front-end where a user can pay to register his wallet into the whitelist, given that its aggregated wallet score from various AML providers satisfies the compliance criterion (score below a defined threshold value decided from statistical analysis). \\
+The term “door” signifies the gate into the Certified Trust Space. The first release of the solution will include a front-end where a user can pay to register his wallet into the whitelist, given that its aggregated wallet score from various AML providers satisfies the compliance criterion (score below a defined threshold value decided from statistical analysis). \\
 
-The whitelist is an on-chain smart contract managed by the contract owner (the wallet which has deployed the smart contract), meaning that only one wallet is authorized to insert into or remove addresses from it. An off-chain “whitelist manager” micro-service is in charge of this task on behalf of the registration front-end or the monitoring program (see Fig. 1). \\
+The whitelist is an on-chain smart contract managed by the contract owner (the wallet which has deployed the smart contract or the one which has received its custody), meaning that only one wallet is authorized to insert into or remove addresses from it. An off-chain “whitelist manager” micro-service is in charge of this task on behalf of the registration front-end or the monitoring program (see Fig. 1). \\
 
 A copy of the whitelist is stored in an off-chain database to keep a history backup of the whitelisted addresses. A subset of this centralized off-chain database is also serving the requests of the monitoring service to keep the pace of the monitoring program in sync with the creation of new blocks in the chain (the responsiveness of a central database is notably higher than the decentralized smart contract). Regular checks will be carried out to ensure that the database entries match the whitelist entries in the smart contract. \\  
 
@@ -288,7 +290,7 @@ The monitor program checks every transaction of every block and identifies the a
 
 Once an address has been registered in the whitelist, the smart contract of a third party DApp can call a function of the whitelist smart contract which will return a “true” boolean value to confirm that the address is indeed compliant, and can then authorize this address to transact in the Certified Trust Space\texttrademark of the Dapp. \\
 
-For the sake of simplicity, the whitelist will be only valid for the blockchain where it has been deployed since decentralized applications will need to make function calls to the whitelist smart contract. However, one of the upcoming features from the AML partners is aggregated scores from different EVM-compatible blockchains for a single address. This means that a score will be identical for a given address on every chain where this address holds tokens, it will be technically possible to make function calls to the whitelist on one blockchain and use the compliance result to authorize or prohibit transactions from that particular address on another blockchain in a decentralized way thanks to the use of a proof of stake transport layer such as Axelar Network (see Figure 2). 
+For the sake of simplicity, the whitelist will be only valid for the blockchain where it has been deployed since decentralized applications will need to make function calls to the whitelist smart contract. However, one of the upcoming features from the AML partners is aggregated scores from different EVM-compatible blockchains for a single address. This means that a score will be identical for a given address on every chain where this address holds tokens, it will be technically possible to make function calls to the whitelist on one blockchain and use the compliance result to authorize or prohibit transactions from that particular address on another blockchain in a decentralized way thanks to the use of a bridge or a decentralized proof of stake transport layer such as Axelar Network (see Figure 2). 
 The latter solution will avoid the high gas fees linked to using the Ethereum network. \\
 
 \begin{figure}[!h]
@@ -298,7 +300,7 @@ The latter solution will avoid the high gas fees linked to using the Ethereum ne
 \label{offchain}
 \end{figure}  
 
-The compliance status is checked directly in the partner's smart contract by a functional call to the whitelist method deployed on the blockchain. The smart contract Solidity code, its deployment JSON and ABI files will be available on the Sesame GitHub. \\
+The compliance status is checked directly in the partner's smart contract by a functional call to the whitelist method deployed on the blockchain. The smart contract Solidity code, its deployment JSON and ABI files will be available on the Sesame GitHub and verified on the blockchain explorer. \\
 
 Partners who wish to access the whitelist from an on-chain function call from a chain which is different from the one where the whitelist has been deployed will make use of the transport layer to route the function call from one blockchain to the other.
 \subsection{Door 2.0 (2023)}
@@ -312,7 +314,7 @@ The second version of the solution will make use of an oracle to bring the addre
 \end{figure}
 
 
-Again, a transport layer, such as Axelar Network, can be used to host the whitelist on one chain and certify the wallets on another one (see Figure 4). \\
+Again, a transport layer can be used to host the whitelist on one chain and certify the wallets on another one (see Figure 4). \\
 
 The whitelisting technology could also evolve into an NFT passport to be held by compliant users. A separate oracle, an NFT bridge, or the transport layer, could be also used to transfer the passport to another blockchain, as long as the AML providers have aggregated the score of that wallet across several blockchains. \\
   
@@ -361,6 +363,8 @@ For a number of AML providers, the aggregated shape parameters are then given by
 $$a=\sum_{i=0}^na_i$$
 $$b=\sum_{i=0}^nb_i$$  
 
+More statistical complexity could be added by considering mixtures of Kumaraswamy distributions in order to best approach the actual statistical distribution provided by the AML rating companies, while still keeping the model practical. \\
+
 In the future, the tool could be adapted to local country regulations in such a way that the user could freely choose the legal jurisdiction with which his wallet complies with.
 
 \subsection{Future developments: from NFTzed Passport to private blockchain}
@@ -386,14 +390,14 @@ In the case of an encrypted whitelist, the compliance status is checked in a sim
 
 \begin{itemize}
 \item
-Q3 2022:  v0.1 POC
+Q4 2022:  v0.1 POC
     \begin{itemize}
     \item EVM-compatible testnets (Kovan, Rinkeby, local, Polygon PoS Mumbai, Avalanche C-Chain Fuji, Milkomeda Cardano, Binance Smart Chain). 
     \item Serial monitor program. 
     \end{itemize}
 
 \item
-Q4 2022: v0.2 MVP
+Q1 2023: v0.2 MVP
     \begin{itemize}
     \item Private beta product launch on testnet and mainnet.
     \item Accepting payments from Ethereum, Binance Smart Chain, Avalanche C-Chain, Polygon PoS, Cronos, Fantom, Arbitrum, Milkomeda, Kava, Aurora, Optimism, Gnosis. 
@@ -403,7 +407,7 @@ Q4 2022: v0.2 MVP
     \end{itemize}
 
 \item
-Q1 2023: v1.0
+Q2 2023: v1.0
     \begin{itemize}
     \item Official launch of an on-chain whitelist and monitor for Ethereum mainnet.
     \item On-chain registering of the addresses from the central database.
@@ -412,14 +416,14 @@ Q1 2023: v1.0
     \end{itemize}
 
 \item
-Q2 2023: v1.1
+Q3 2023: v1.1
     \begin{itemize}
     \item Official launch of an on-chain whitelist and monitor for Binance Smart Chain and Polygon PoS.
     \item Use of zk-SNARKs on EVM-compatible testnets (Avalanche C-Chain Fuji, etc). 
     \end{itemize}
 
 \item
-Q3 2023: v2.0
+Q4 2023: v2.0
     \begin{itemize}
     \item Use of Axelar Network for on-chain computation registration of new wallets on Ethereum, Binance Smart Chain, Polygon PoS.
     \item Migration of the whitelist to Avalanche C-chain
@@ -427,7 +431,7 @@ Q3 2023: v2.0
     \end{itemize}
 
 \item
-Q4 2023: v2.1
+Q1 2024: v2.1
     \begin{itemize}
     \item Liquidity pool and staking set up. 
     \item Official launch of a whitelist for Tron.
@@ -437,14 +441,14 @@ Q4 2023: v2.1
 The whitelist manager checks the address of the staked SAM tokens in the liquidity pool to check if the required tokens are present.
 
 \item
-Q1 2024 v2.2
+Q2 2024 v2.2
     \begin{itemize}
     \item Official launch of a public whitelist and monitor for Avalanche C-Chain.
     \item Start adaptation to non-EVM chains: Stacks, Ripple, Cosmos, Solana.
     \end{itemize}
 
 \item
-Q2 2024 v2.3
+Q3 2024 v2.3
     \begin{itemize}
     \item Official launch of a whitelist and monitor for Stacks, Ripple, Cosmos, and Solana.
     \end{itemize}

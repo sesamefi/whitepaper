@@ -20,7 +20,7 @@
 %\hypersetup{%
 %    pdfborder = {0 0 0}
 %}
-\newcommand{\version}{\vspace{10pt}\\ Version 1.0}
+\newcommand{\version}{\vspace{10pt}\\ Version 1.1}
 \newcommand{\smallvspace}{\vspace{4pt} \\}
 \begin{document}
 \title{Livre blanc \vspace{10pt} \\
@@ -39,7 +39,9 @@ La majeure partie de l’industrie crypto s’accorde maintenant sur le besoin d
 
 Nous pouvons y parvenir en intégrant une couche analyse on-chain des transactions, baptisé “KYT” ou "Know Your Transaction" (en miroir du “KYC” de la TraFi : Finance Traditionnelle), dans un smart contract qui maintiendra le portefeuille des utilisateurs dans un espace sûr et digne de confiance. \\
 
-Notre objectif est de créer progressivement des zones de confiance où les transactions financières entre les portefeuilles certifiés et les smart contracts certifiés sont considérées comme conformes. Ainsi, la communauté Web3 disposera d'un écosystème sûr et sécurisé pour développer son économie, tout en conservant l'esprit de protection de la vie privée et de décentralisation qui est attaché à ses racines. \\
+En mettant la technologie au service de la réglementation, nous pouvons relever les défis posés par l'innovation continue dans le domaine des cryptomonnaies. \\
+
+En tant que RegTech, notre objectif est de créer progressivement des zones de confiance où les transactions financières entre les portefeuilles certifiés et les smart contracts certifiés sont considérées comme conformes. Ainsi, la communauté Web3 disposera d'un écosystème sûr et sécurisé pour développer son économie, tout en conservant l'esprit de protection de la vie privée et de décentralisation qui est attaché à ses racines. \\
 
 Tout comme le pseudonymat est un fondement même de la technologie de la blockchain, par définition, le pendant structurel est que toutes les transactions peuvent être retracées, tous les blocs peuvent être lus, tous les portefeuilles peuvent être vérifiés. Notre objectif est de donner progressivement un accès universel à ces outils d’historique complet des transactions, de telle sorte que n’importe quel portefeuille puisse-t’être certifié comme étant conforme, interagir avec ses pairs et puisse mettre de côté les autres portefeuilles qui eux ne le seraient pas. Notre communauté de bâtisseurs du Web3 est prête désormais à créer un écosystème économique sûr et sécurisé, dans une industrie libre et protégeant la vie privée. \\
 
@@ -282,7 +284,7 @@ Pour cette partie de la solution Sésame, nous offrons à la fois un scoring on-
 \section{Architecture Technique}
 \subsection{Version 1.0 (2022)}
 La première version de la solution comprendra une interface accessible en ligne par tous, où un utilisateur pourra payer pour tester son portefeuille et l’enregistrer dans la liste blanche, dans la mesure où le score agrégé de son portefeuille à partir des différents fournisseurs AML satisfait aux critères de conformité (par ceci on entend un score supérieur à un seuil défini par Sésame, en lien avec les réglementations et nos analyses statistiques).
-La liste blanche est un smart contract on-chain géré par le propriétaire du contrat, ce qui signifie qu'un seul portefeuille est autorisé à y insérer ou supprimer des adresses. Un micro-service off-chain de gestion de la liste blanche est chargé de cette tâche pour le compte de l'interface d'enregistrement ou du programme de surveillance (voir Fig. 1).
+La liste blanche est un smart contract on-chain géré par le propriétaire du contrat ou celui qui en a reçu la garde, ce qui signifie qu'un seul portefeuille est autorisé à y insérer ou supprimer des adresses. Un micro-service off-chain de gestion de la liste blanche est chargé de cette tâche pour le compte de l'interface d'enregistrement ou du programme de surveillance (voir Fig. 1).
 Une copie de la liste blanche est stockée dans une base de données off-chain afin de conserver une sauvegarde des adresses de la liste blanche. Cette base de données off-chain répond également aux requêtes du service de surveillance afin de maintenir le programme de surveillance en synchronisation avec la création de nouveaux blocs dans la chaîne (dans l’état actuel des technologies, la réactivité d'une base de données centrale est notamment supérieure à celle du smart contract décentralisé). Des vérifications régulières seront effectuées pour s'assurer que les entrées de la base de données sont en cohérence avec les entrées de la liste blanche du smart contract. \\
 
 \begin{figure}[!h]
@@ -295,7 +297,7 @@ Une copie de la liste blanche est stockée dans une base de données off-chain a
 
 Le programme de surveillance vérifie chaque transaction de chaque bloc et identifie les adresses qui ont transféré des jetons vers les adresses de la liste blanche, ou par la suite celles auxquelles des tokens ont été envoyés. Si l'adresse de la contrepartie obtient un score suffisant, aucune modification n'est apportée à la liste blanche. En revanche, si l'adresse de la contrepartie n'est pas conforme, l'adresse de la liste blanche est re-testée, et si cette dernière interaction change son état de conformité, le programme de surveillance envoie une requête de publication au gestionnaire de la liste blanche pour supprimer l'adresse du destinataire de la liste blanche.
 Une fois qu'une adresse a été enregistrée dans la liste blanche, le smart contract d’une application décentralisée tierce peut appeler une fonction du smart contrat de la liste blanche qui renverra une valeur booléenne "vrai" pour confirmer que l'adresse est bien conforme, et peut autoriser cette adresse à effectuer des transactions dans l’Espace de Confiance Certifié de l’application décentralisée.
-Par souci de simplicité, dans un premier temps, la liste blanche ne sera valable que pour la blockchain où elle a été déployée puisque les applications décentralisées devront effectuer des appels de fonction au smart contrat de la liste blanche. Cependant, l'une des fonctionnalités à venir des partenaires AML est l'agrégation des scores de différentes blockchains compatibles EVM pour une même adresse. Cela signifie qu'un score sera identique pour une adresse donnée sur chaque chaîne où cette adresse possède des jetons. Une fois cette fonctionnalité opérationnelle, il sera techniquement possible pour les applications décentralisées d’effectuer des appels vers la liste blanche sur une blockchain et utiliser le résultat de conformité sur une autre blockchain de manière décentralisée grâce à l'utilisation d'une couche de transport de type PoS telle qu'Axelar Network (voir Figure 2). 
+Par souci de simplicité, dans un premier temps, la liste blanche ne sera valable que pour la blockchain où elle a été déployée puisque les applications décentralisées devront effectuer des appels de fonction au smart contrat de la liste blanche. Cependant, l'une des fonctionnalités à venir des partenaires AML est l'agrégation des scores de différentes blockchains compatibles EVM pour une même adresse. Cela signifie qu'un score sera identique pour une adresse donnée sur chaque chaîne où cette adresse possède des jetons. Une fois cette fonctionnalité opérationnelle, il sera techniquement possible pour les applications décentralisées d’effectuer des appels vers la liste blanche sur une blockchain et utiliser le résultat de conformité sur une autre blockchain de manière décentralisée grâce à l'utilisation d'un pont ou d'une couche de transport de type PoS telle qu'Axelar Network (voir Figure 2). 
 Cette dernière solution évitera les frais de gaz élevés liés à l'utilisation du réseau Ethereum. \\
 
 \begin{figure}[!h]
@@ -305,7 +307,7 @@ Cette dernière solution évitera les frais de gaz élevés liés à l'utilisati
 \label{offchain}
 \end{figure}  
 
-Le statut de conformité est vérifié directement dans le smart contract du partenaire par un appel fonctionnel à la méthode de liste blanche déployée sur la blockchain. Le code en Solidity du smart contract, ses fichiers de déploiement JSON et ABI seront disponibles sur la page GitHub de Sesame. \\
+Le statut de conformité est vérifié directement dans le smart contract du partenaire par un appel fonctionnel à la méthode de liste blanche déployée sur la blockchain. Le code en Solidity du smart contract, ses fichiers de déploiement JSON et ABI seront disponibles sur la page GitHub de Sesame et verifi\'es dans l'explorateur de la blockchain. \\
 
 Les partenaires qui souhaiteront accéder à la liste blanche à partir d'un appel de fonction on-chain à partir d'une chaîne différente de celle où la liste blanche a été déployée utiliseront la couche de transport pour acheminer l'appel de fonction d'une blockchain à l'autre.
 
@@ -319,7 +321,7 @@ La deuxième version de la solution utilisera un oracle pour amener la comparais
 \label{onchain}
 \end{figure}
 
-À nouveau, une couche de transport, telle qu'Axelar Network, peut être utilisée pour héberger la liste blanche sur une chaîne et certifier les portefeuilles sur une autre (voir Figure 4).
+À nouveau, une couche de transport peut être utilisée pour héberger la liste blanche sur une chaîne et certifier les portefeuilles sur une autre (voir Figure 4).
 Un oracle séparé, un pont NFT, ou une couche de transport pourront être aussi utilisés pour transférer le certificat vers une autre blockchain étant donné que le score du portefeuille, pour un portefeuille donné, a été agrégé à partir des données fournies par les partenaires AML. La technologie de liste blanche pourrait également évoluer vers un passeport NFT détenu par les utilisateurs conformes. \\
   
 \begin{figure}[!h]
@@ -360,6 +362,8 @@ Pour un certain nombre de fournisseurs AML, les paramètres de forme agrégés s
 $$a=\sum_{i=0}^na_i$$
 $$b=\sum_{i=0}^nb_i$$  
 
+Une plus grande complexité statistique pourrait être ajoutée en considérant des mélanges de distributions de Kumaraswamy afin d'approcher au mieux la distribution statistique réelle fournie par les sociétés de notation AML, tout en gardant un modèle numériquement utilisable.
+
 À l'avenir, l'outil pourrait être adapté aux réglementations locales du pays de manière à ce que l'utilisateur puisse choisir librement la juridiction à laquelle son portefeuille se conforme.
 
 \subsection{Développements futurs : des passeports NFT aux chaînes de blocs privées}
@@ -382,24 +386,24 @@ Dans le cas d'une liste blanche cryptée, l'état de conformité est vérifié d
 
 \begin{itemize}
 \item
-Q3 2022:  v0.1 POC
+Q4 2022:  v0.1 POC
     \begin{itemize}
     \item Testnets compatibles EVM (Kovan, Rinkeby, local, Polygon PoS Mumbai, Avalanche C-Chain Fuji, Milkomeda Cardano, Binance Smart Chain). 
     \item Programme de surveillance en série. 
     \end{itemize}
 
 \item
-Q4 2022: v0.2 MVP
+Q1 2023: v0.2 MVP
     \begin{itemize}
     \item Lancement du produit bêta privé sur testnet et mainnet.
     \item Accepter les paiements d'Ethereum, Binance Smart Chain, Avalanche C-Chain, Polygon PoS, Cronos, Fantom, Arbitrum, Milkomeda, Kava, Aurora, Optimism, Gnosis. 
-    \item Scoring public gratuit des adresses compatibles EVM et enregistrement dans la base de données centrale.
+    \item Scoring publique gratuit des adresses compatibles EVM et enregistrement dans la base de données centrale.
     \item Programme de surveillance parallèle pour les r\'eseaux de test Ethereum sur Spark/Kubernetes.
     \item Audit.
     \end{itemize}
 
 \item
-Q1 2023: v1.0
+Q2 2023: v1.0
     \begin{itemize}
     \item Lancement officiel d'une liste blanche on-chain et d'un moniteur pour le réseau principal Ethereum.
     \item Enregistrement on-chain des adresses à partir de la base de données centrale.
@@ -408,14 +412,14 @@ Q1 2023: v1.0
     \end{itemize}
 
 \item
-Q2 2023: v1.1
+Q3 2023: v1.1
     \begin{itemize}
     \item Lancement officiel d'une liste blanche sur la chaîne et d'un moniteur pour Binance Smart Chain et Polygon PoS.
     \item Utilisation de zk-SNARKs sur des réseaux de test compatibles EVM (Avalanche C-Chain Fuji, etc). 
     \end{itemize}
 
 \item
-Q3 2023: v2.0
+Q4 2023: v2.0
     \begin{itemize}
     \item Utilisation d'Axelar Network pour le calcul d’inscription en chaîne de nouveaux portefeuilles sur Ethereum, Binance Smart Chain, Polygon PoS.
     \item Migration de la liste blanche Avalanche C-chain
@@ -423,7 +427,7 @@ Q3 2023: v2.0
     \end{itemize}
 
 \item
-Q4 2023: v2.1
+Q1 2024: v2.1
     \begin{itemize}
     \item Mise en place d'un pool de liquidités et de stacking. 
     \item Lancement officiel d'une liste blanche pour Tron.
@@ -433,14 +437,14 @@ Q4 2023: v2.1
 Le gestionnaire de liste blanche vérifie l'adresse des jetons SAM investis dans le pool de liquidité afin de vérifier si les jetons requis sont présents.
 
 \item
-Q1 2024 v2.2
+Q2 2024 v2.2
     \begin{itemize}
     \item Lancement officiel d'une liste blanche publique et d'un moniteur pour le réseau Avalanche C-Chain.
     \item D\'ebut de l'adaptation aux chaînes non EVM : Stacks, Ripple, Cosmos, Solana.
     \end{itemize}
 
 \item
-Q2 2024 v2.3
+Q3 2024 v2.3
     \begin{itemize}
     \item Lancement officiel d'une liste blanche et d’un programme de surveillance pour Stacks, Ripple, Cosmos, and Solana.
     \end{itemize}
