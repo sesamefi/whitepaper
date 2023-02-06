@@ -19,7 +19,7 @@
 %\hypersetup{%
 %    pdfborder = {0 0 0}
 %}
-\newcommand{\version}{\vspace{10pt}\\ Version 1.1}
+\newcommand{\version}{\vspace{10pt}\\ Version 1.2}
 \newcommand{\smallvspace}{\vspace{4pt} \\}
 \begin{document}
 \title{Whitepaper \vspace{10pt} \\
@@ -206,7 +206,7 @@ At first, any Web3 product will be able to freely integrate the Certified Trust 
 \subsection{Tokenomics}
 \begin{itemize}
 \item Token ticker: SAM
-\item Token chain: Avalanche C-chain
+\item Token chain: Avalanche C-chain, Ethereum
 \item Total Supply: 100,000,000 SAM
 \item Initial Circulating Supply: 28,541,667 SAM
 \item Initial Market Cap on private sale:  33,333,333 €
@@ -290,7 +290,7 @@ The monitor program checks every transaction of every block and identifies the a
 
 Once an address has been registered in the whitelist, the smart contract of a third party DApp can call a function of the whitelist smart contract which will return a “true” boolean value to confirm that the address is indeed compliant, and can then authorize this address to transact in the Certified Trust Space\texttrademark of the Dapp. \\
 
-For the sake of simplicity, the whitelist will be only valid for the blockchain where it has been deployed since decentralized applications will need to make function calls to the whitelist smart contract. However, one of the upcoming features from the AML partners is aggregated scores from different EVM-compatible blockchains for a single address. This means that a score will be identical for a given address on every chain where this address holds tokens, it will be technically possible to make function calls to the whitelist on one blockchain and use the compliance result to authorize or prohibit transactions from that particular address on another blockchain in a decentralized way thanks to the use of a bridge or a decentralized proof of stake transport layer such as Axelar Network (see Figure 2). 
+For the sake of simplicity, the whitelist will be only valid for the blockchain where it has been deployed since decentralized applications will need to make function calls to the whitelist smart contract. However, one of the upcoming features from the AML partners is aggregated scores from different EVM-compatible blockchains for a single address. This means that a score will be identical for a given address on every chain where this address holds tokens, it will be technically possible to make function calls to the whitelist on one blockchain and use the compliance result to authorize or prohibit transactions from that particular address on another blockchain in a decentralized way thanks to the use of a bridge, a decentralized bridge such as ARPA Network, or a decentralized proof of stake transport layer such as Axelar Network (see Figure 2). 
 The latter solution will avoid the high gas fees linked to using the Ethereum network. \\
 
 \begin{figure}[!h]
@@ -371,13 +371,18 @@ In the future, the tool could be adapted to local country regulations in such a 
 \subsubsection{Privacy}
 The privacy of the certificate could also be preserved by using zero-knowledge proofs so that the compliance status is known only by the user and the party to which he agrees to disclose it, i.e. the Web3 partners providing a Certified Trust Space.  The zero-knowledge proof can be implemented for EVM smart contracts using the zk-SNARKs family of algorithms and the alt\_bn128 elliptic curve which are part of EIP-196 and EIP-197. In this case, the wallet address and its score can be encrypted with verification keys and stored on-chain while the proving keys can be kept by the user. In the case of an encrypted whitelist, the compliance status is checked in a similar fashion as without any encryption. \\
 
-Since the cost of registering elliptic curve points on-chain will be much higher than a simple plain wallet address, the encrypted whitelist could be deployed on a niche blockchain, such as Milkomeda Cardano, or even a dedicated Avalanche subnet, so that the gas fees will be close to zero. \\
+Since the cost of registering elliptic curve points on-chain will be much higher than a simple plain wallet address, the encrypted whitelist could be deployed on a layer-2 blockchain, such as Milkomeda Cardano, zkSync, or even a dedicated Avalanche subnet, so that the gas fees will be close to zero. \\
 
 The case of a decentralized acceptance test combined with the privacy of the scores could also justify the need to run a private blockchain where the actual score aggregation could take place.
 
 \subsubsection{Certificate in the form of a passport}
 The certificate could take the form of a passport represented by a non-transferable NFT, or a soulbound token (\href{https://vitalik.ca/general/2022/01/26/soulbound.html}{SBT}). The creation of a standard for SBTs is expected at the end of 2022, therefore it is conceivable to integrate them in version 2.0 of our solution due in 2023. 
-Moreover, the use of SBTs will allow the transfer of certificates from one chain to the other. The technology is not completely ready yet at the time of writing, but we can already envisage the use of such solutions to broadcast the certification registered in one unique whitelist to applications on many blockchains. This will greatly simplify the maintenance and consistency of our product.
+Moreover, the use of SBTs will allow the transfer of certificates from one chain to the other. The technology is not completely ready yet at the time of writing, but we can already envisage the use of such solutions to broadcast the certification registered in one unique whitelist to applications on many blockchains. This will greatly simplify the maintenance and consistency of our product. \\
+
+Once a SBT standard is defined, the use of a whitelist could be replaced by the SBT altogether. The upgrade can be handled by deploying a proxy contract to the actual whitelist, and redirect the verification calls to the SBT once the upgrade is rolled out.
+
+\subsubsection{Account abstraction}
+Functionalities for account abstraction could be added in supplement to the certification of Externally Owned Accounts, once the AML providers decide to attribute a score to them. In that case, the use of SBTs will likely  be the most convenient technology to certify them.
 
 \subsection{Calls into the whitelist by Web3 partners}
 The compliance status is checked on the partner's smart contract or on his website by a functional call to the whitelist method which has been implemented in a smart contract written in Solidity. The smart contract code and its deployment JSON file will be available on the Sesame GitHub.

@@ -20,7 +20,7 @@
 %\hypersetup{%
 %    pdfborder = {0 0 0}
 %}
-\newcommand{\version}{\vspace{10pt}\\ Version 1.1}
+\newcommand{\version}{\vspace{10pt}\\ Version 1.2}
 \newcommand{\smallvspace}{\vspace{4pt} \\}
 \begin{document}
 \title{Livre blanc \vspace{10pt} \\
@@ -216,7 +216,7 @@ Dans un premier temps, tout produit Web3 pourra intégrer librement le label Cer
 \subsection{Tokenomics}
 \begin{itemize}
 \item Ticker du jeton : SAM
-\item Adresse du contrat : Avalanche C-chain
+\item Blockchain de d\'eploiement : Avalanche C-chain, Ethereum
 \item Offre totale : 100,000,000 SAM
 \item Offre en circulation initiale : 28,541,667 SAM
 \item Capitalisation de marché initiale sur la vente privée :  33,333,333 €
@@ -297,7 +297,7 @@ Une copie de la liste blanche est stockée dans une base de données off-chain a
 
 Le programme de surveillance vérifie chaque transaction de chaque bloc et identifie les adresses qui ont transféré des jetons vers les adresses de la liste blanche, ou par la suite celles auxquelles des tokens ont été envoyés. Si l'adresse de la contrepartie obtient un score suffisant, aucune modification n'est apportée à la liste blanche. En revanche, si l'adresse de la contrepartie n'est pas conforme, l'adresse de la liste blanche est re-testée, et si cette dernière interaction change son état de conformité, le programme de surveillance envoie une requête de publication au gestionnaire de la liste blanche pour supprimer l'adresse du destinataire de la liste blanche.
 Une fois qu'une adresse a été enregistrée dans la liste blanche, le smart contract d’une application décentralisée tierce peut appeler une fonction du smart contrat de la liste blanche qui renverra une valeur booléenne "vrai" pour confirmer que l'adresse est bien conforme, et peut autoriser cette adresse à effectuer des transactions dans l’Espace de Confiance Certifié de l’application décentralisée.
-Par souci de simplicité, dans un premier temps, la liste blanche ne sera valable que pour la blockchain où elle a été déployée puisque les applications décentralisées devront effectuer des appels de fonction au smart contrat de la liste blanche. Cependant, l'une des fonctionnalités à venir des partenaires AML est l'agrégation des scores de différentes blockchains compatibles EVM pour une même adresse. Cela signifie qu'un score sera identique pour une adresse donnée sur chaque chaîne où cette adresse possède des jetons. Une fois cette fonctionnalité opérationnelle, il sera techniquement possible pour les applications décentralisées d’effectuer des appels vers la liste blanche sur une blockchain et utiliser le résultat de conformité sur une autre blockchain de manière décentralisée grâce à l'utilisation d'un pont ou d'une couche de transport de type PoS telle qu'Axelar Network (voir Figure 2). 
+Par souci de simplicité, dans un premier temps, la liste blanche ne sera valable que pour la blockchain où elle a été déployée puisque les applications décentralisées devront effectuer des appels de fonction au smart contrat de la liste blanche. Cependant, l'une des fonctionnalités à venir des partenaires AML est l'agrégation des scores de différentes blockchains compatibles EVM pour une même adresse. Cela signifie qu'un score sera identique pour une adresse donnée sur chaque chaîne où cette adresse possède des jetons. Une fois cette fonctionnalité opérationnelle, il sera techniquement possible pour les applications décentralisées d’effectuer des appels vers la liste blanche sur une blockchain et utiliser le résultat de conformité sur une autre blockchain de manière décentralisée grâce à l'utilisation d'un pont décentralisé tel qu’ARPA Network, ou d'une couche de transport de type PoS telle qu'Axelar Network (voir Figure 2). 
 Cette dernière solution évitera les frais de gaz élevés liés à l'utilisation du réseau Ethereum. \\
 
 \begin{figure}[!h]
@@ -369,12 +369,17 @@ Une plus grande complexité statistique pourrait être ajoutée en considérant 
 \subsection{Développements futurs : des passeports NFT aux chaînes de blocs privées}
 \subsubsection{Confidentialité}
 La confidentialité du certificat pourrait également être préservée en utilisant des preuves à connaissance nulle afin que le statut de conformité ne soit connu que de l'utilisateur et de la partie à laquelle il s'engage à la divulguer, c'est-à-dire les partenaires Web3 fournissant un Espace de Confiance Certifié. La preuve à connaissance nulle peut être mise en œuvre pour les contrats intelligents compatibles EVM à l'aide de la famille d'algorithmes zk-SNARKs et de la courbe elliptique alt\_bn128 qui font partie de EIP-196 et EIP-197. Dans ce cas, l'adresse du portefeuille et son score peuvent être chiffrés à l’aide des clés de vérification et stockés on-chain tandis que les clés de preuve peuvent être conservées par l'utilisateur.
-Étant donné que le coût d'enregistrement des points de courbe elliptique sur la chaîne sera beaucoup plus élevé qu'une simple adresse de portefeuille ordinaire, la liste blanche cryptée pourrait être déployée sur une blockchain moins onéreuse, telle que Milkomeda Cardano, ou même un sous-réseau Avalanche dédié, de sorte que les frais de gaz seront proches de zéro.
+Étant donné que le coût d'enregistrement des points de courbe elliptique sur la chaîne sera beaucoup plus élevé qu'une simple adresse de portefeuille ordinaire, la liste blanche cryptée pourrait être déployée sur une blockchain de type layer-2 moins onéreuse, telle que Milkomeda Cardano, zkSync, ou même un sous-réseau Avalanche dédié, de sorte que les frais de gaz seront proches de zéro.
 Le cas d'un test d'acceptation décentralisé combiné à la confidentialité des scores pourrait également justifier la nécessité d'exécuter une blockchain privée où l'agrégation réelle des scores pourrait avoir lieu.
 
 \subsubsection{Attestation sous forme de passeport}
 Le certificat pourrait prendre la forme d'un passeport représenté par un NFT non transférable ou Soul Bound Token (SBT). La création d'un standard pour les SBT est attendue d’ici fin 2022, il sera donc envisageable de les intégrer dans la version 2.0 de notre solution prévue en 2023.
-De plus, l’utilisation des SBT permettra le transfert des certificats d'une chaîne à l'autre. La technologie n'est pas encore complètement prête au moment de la rédaction, mais on peut déjà envisager l'utilisation de telles solutions pour diffuser la certification enregistrée dans une liste blanche unique à des applications sur de nombreuses blockchains. Cela simplifiera grandement la maintenance et la cohérence de notre produit.
+De plus, l’utilisation des SBT permettra le transfert des certificats d'une chaîne à l'autre. La technologie n'est pas encore complètement prête au moment de la rédaction, mais on peut déjà envisager l'utilisation de telles solutions pour diffuser la certification enregistrée dans une liste blanche unique à des applications sur de nombreuses blockchains. Cela simplifiera grandement la maintenance et la cohérence de notre produit. \\
+
+Une fois qu'une norme pour les SBT sera définie, l'utilisation d'une liste blanche pourrait être remplacée par un SBT. La mise à niveau pourra être gérée par le déploiement d'un contrat proxy vers la liste blanche réelle, et la redirection des appels de vérification de conformité vers le SBT une fois la mise à niveau effectuée.
+
+\subsubsection{Abstraction de compte}
+Des fonctionnalités d'abstraction de compte pourraient être ajoutées en complément de la certification des comptes originaux de type EOA (Externally Owned Account), une fois que les prestataires AML auront décidé de leur attribuer une note. Dans ce cas, l'utilisation de SBT sera probablement la technologie la plus pratique pour garantir certification.
 
 \subsection{Appels à la liste blanche par les partenaires Web3}
 La conformité d’une adresse est vérifiée dans le smart contract du partenaire ou sur son site Web par un appel fonctionnel à la méthode de liste blanche qui a été implémentée dans un smart contrat écrit dans Solidity. Le code du smart contract et son fichier de déploiement JSON seront disponibles sur le github Sésame.
